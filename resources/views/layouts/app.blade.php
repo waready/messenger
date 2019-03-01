@@ -14,10 +14,13 @@
 
 </head>
 <body>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
     <div id="app">
       <b-navbar toggleable="md" type="dark" variant="primary">
         <b-navbar-toggle target="nav_collapse">
-            Menu
+            MENU
         </b-navbar-toggle>
             <b-navbar-brand href="{{ url('/') }}">
               {{ config('app.name', 'Laravel') }}
@@ -26,7 +29,7 @@
             <b-collapse is-nav id="nav_collapse">
             <!-- Right aligned nav items -->
 
-            <b-collapse is-nav id="nav_text_collapse">
+            <b-collapse is-nav id="nav_collapse">
                 <b-navbar-nav class="ml-auto">
                     <b-navbar-nav class="ml-auto">     
                         <b-nav-item-dropdown text="Idiomas" right>
@@ -44,30 +47,11 @@
                             Register
                         </b-nav-item>
                     @else
-                        <b-nav-item-dropdown text="Username" right>
-                            <b-dropdown-item href="#">
+                        <b-nav-item-dropdown text=" {{ Auth::user()->name }}" right>
+                            <b-dropdown-item @click="logout()">
                                 Cerrar Sesion
                             </b-dropdown-item>
                         </b-nav-item-dropdown>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
                     @endguest
                 </b-navbar-nav>
             </b-collapse>

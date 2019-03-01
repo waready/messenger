@@ -23,8 +23,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 const app = new Vue({
     el: '#app',
-    mounted(){
-        console.log('se inicio vue')
-    }
+    methods: {
+        logout(){
+            document.getElementById('logout-form').submit();
+        }
+    },
 
 });

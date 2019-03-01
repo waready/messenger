@@ -4,8 +4,19 @@
 <b-container>
     <b-row align-h="center">
         <b-col cols="8">
-          <b-card title="Login">
-            <b-alert show> ingresa tus datos</b-alert>
+          <b-card title="Login" class="my-4">
+            
+            @if($errors->any())
+                <b-alert show variant="danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach                    
+                    </ul>
+                </b-alert>
+            @else 
+                <b-alert show> ingresa tus datos</b-alert>
+            @endif
 
                 <b-form  method="POST" action="{{ route('login') }}">
                       {{ csrf_field() }}
@@ -32,7 +43,7 @@
                           <b-form-input id="password"
                                         type="password"
                                         name="password"
-                                        value="{{ old('password') }}"
+                                        
                                         required
                                         placeholder="ingresa aqui tu contraseña">
                                         @if ($errors->has('password'))
@@ -49,10 +60,12 @@
                           </b-form-checkbox>
                         </b-form-group>
 
-                          <b-button href="{{ route('password.request') }}"
-                                    variant="primary">ingresar</b-button>
-                          <b-button type="submit"
-                                    variant="link">olvidaste tu contraseña?</b-button>
+                        <b-button type="submit"
+                            variant="primary">ingresar                            
+                        </b-button>
+                        <b-button href="{{ route('password.request') }}"
+                            variant="link">¿Olvidaste tu contraseña?
+                        </b-button>
 
                 </b-form>
             </b-card>
