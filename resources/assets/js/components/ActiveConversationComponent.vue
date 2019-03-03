@@ -6,35 +6,25 @@
             footer-border-variant="dark"
             title="Conversacion Activa"
             class="h-100">
-            <div class="mb-2">
-                <b-media vertical-align="center">
-                    <b-img rounded="circle" slot="aside" blank blank-color="#ccc" width="48" alt="placeholder" />
-                  
-                    <b-card>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-                    </b-card>             
-                
-                </b-media>
-            </div>
-            <div class="mb-2">
-                <b-media right-align vertical-align="center">
-                    <b-img rounded="circle" slot="aside" blank blank-color="#ccc" width="48" alt="placeholder" />
-                   
-                    <b-card>
-                        Cras sit amet nibh libero, in gravida nulla.
-                    </b-card>                    
-              
-                </b-media>
-            </div>
+
+            <mensaje-conversation-component v-for="mensajes in mensages" 
+            :key="mensajes.id"
+            :writtenfromme="mensajes.written_by_me"
+            >
+                {{mensajes.content}}
+            </mensaje-conversation-component>  
+
+           
             <div slot="footer">
-                <b-form class="mb-0">
+                <b-form @submit.prevent="postMenssages" class="mb-0">
                     <b-input-group>
                         <b-form-input class="text-center"
                         type="text"
+                        v-model="newMensaje"
                         placeholder="Escrive un mensaje">
                         </b-form-input>
                         <b-input-group-append>
-                        <b-button variant="primary">
+                        <b-button type="submit" variant="primary">
                             Enviar
                         </b-button>
                         </b-input-group-append>                        
@@ -56,6 +46,34 @@
 </template>
 <script>
 export default {
-    
+    mounted(){
+        this.getMenssages();
+    },
+    data(){
+        return {
+            mensages:[],
+            newMensaje:""
+        }
+    },
+    methods:{
+        getMenssages(){
+            axios.get('/api/messages').then((response) =>{
+            console.log(response.data);
+            this.mensages = response.data;
+        });
+        },
+        postMenssages(){
+            const params ={
+                to_id:2,
+                content:this.newMensaje,
+            };
+            axios.post('/api/messages', params).then((response)=>{
+                console.log('tag', params)
+                this.newMensaje="",
+                this.getMenssages();
+            })
+        }
+    }
+
 }
 </script>
