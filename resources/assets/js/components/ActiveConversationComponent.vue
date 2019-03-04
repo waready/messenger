@@ -16,7 +16,7 @@
 
            
             <div slot="footer">
-                <b-form @submit.prevent="postMenssages" class="mb-0">
+                <b-form @submit.prevent="postMenssages" class="mb-0" autocomplete="off">
                     <b-input-group>
                         <b-form-input class="text-center"
                         type="text"
@@ -52,12 +52,13 @@ export default {
     data(){
         return {
             mensages:[],
-            newMensaje:""
+            newMensaje:"",
+            contactId:2
         }
     },
     methods:{
         getMenssages(){
-            axios.get('/api/messages').then((response) =>{
+            axios.get(`/api/messages?contact_id=${this.contactId}`).then((response) =>{
             console.log(response.data);
             this.mensages = response.data;
         });
@@ -68,9 +69,13 @@ export default {
                 content:this.newMensaje,
             };
             axios.post('/api/messages', params).then((response)=>{
-                console.log('tag', params)
-                this.newMensaje="",
-                this.getMenssages();
+                if(response.data.success){
+                    this.newMensaje="",
+                    this.getMenssages();
+                }else {
+
+                }
+            
             })
         }
     }

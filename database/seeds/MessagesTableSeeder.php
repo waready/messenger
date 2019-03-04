@@ -23,8 +23,13 @@ class MessagesTableSeeder extends Seeder
         ]);
         Message::create([
             'from_id' => 1,	
-            'to_id'	=> 2,
-            'content' => 'nadadasda' 
+            'to_id'	=> 3,
+            'content' => 'hola a los años' 
+        ]);
+        Message::create([
+            'from_id' => 3,	
+            'to_id'	=> 1,
+            'content' => 'nada tu te pierdes.' 
         ]);
     }
 }
