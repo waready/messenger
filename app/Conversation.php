@@ -11,7 +11,7 @@ class Conversation extends Model
     public function getContactNameAttribute(){
         return $this->contact()->first(['name'])->name;
     }
-    public function contact(){
+    public function contact(){  
         return $this->belongsTo(User::class);
     }
 }

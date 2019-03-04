@@ -36,7 +36,7 @@
         <b-col cols="4" class ='my-2'>
             <b-img rounded="circle" blank width= '60' height= '60' class= 'm1' blank-color="#777" alt="Center image" />
 
-            <p>Usuario Seleccionado</p>
+            <p>{{name}}</p>
             <hr>
             <b-form-checkbox>
                 descativar notificaciones
@@ -46,6 +46,10 @@
 </template>
 <script>
 export default {
+    props:{
+        contactId:Number,
+        name: String
+    },
     mounted(){
         this.getMenssages();
     },
@@ -53,7 +57,7 @@ export default {
         return {
             mensages:[],
             newMensaje:"",
-            contactId:2
+            
         }
     },
     methods:{
@@ -77,6 +81,12 @@ export default {
                 }
             
             })
+        }
+    },
+    watch:{
+        contactId(value){
+            console.log(`contactId => ${this.contactId}`);
+            this.getMenssages();
         }
     }
 

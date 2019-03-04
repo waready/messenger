@@ -20,6 +20,7 @@ Vue.use(BootstrapVue);
  */
 
 Vue.component('contact-component', require('./components/ContactComponent.vue'));
+Vue.component('messenger-component', require('./components/MessengerComponente.vue'));
 Vue.component('contact-list-component', require('./components/ContactListComponent.vue'));
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue'));
 Vue.component('mensaje-conversation-component', require('./components/MensajeConversationComponent.vue'));
