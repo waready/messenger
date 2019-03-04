@@ -63502,7 +63502,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             var params = {
-                to_id: 2,
+                to_id: this.contactId,
                 content: this.newMensaje
             };
             axios.post('/api/messages', params).then(function (response) {

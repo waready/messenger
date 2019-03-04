@@ -69,7 +69,7 @@ export default {
         },
         postMenssages(){
             const params ={
-                to_id:2,
+                to_id:this.contactId,
                 content:this.newMensaje,
             };
             axios.post('/api/messages', params).then((response)=>{
