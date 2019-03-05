@@ -24,7 +24,7 @@ export default {
 
     },
     mounted(){
-        console.log('valor de witten', this.writtenfromme)
+        //console.log('valor de witten', this.writtenfromme)
     }
 }
 </script>

@@ -31,7 +31,7 @@ export default {
     methods:{
         getConversation(){
             axios.get('api/conversations').then((response)=>{
-                console.log( "conversasafshaj",response.data)
+               // console.log( "conversasafshaj",response.data)
                 this.conversaciones = response.data;
             })
         },

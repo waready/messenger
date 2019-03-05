@@ -26,6 +26,6 @@ class MessageObserver {
             $conversation->last_time =  $message->created_at;
             $conversation->save();
         }
-        //event(new Messagesent($message));
+        event(new Messagesent($message));
     }
 }

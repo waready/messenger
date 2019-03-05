@@ -7,14 +7,15 @@
             title="Conversacion Activa"
             class="h-100">
 
-            <mensaje-conversation-component v-for="mensajes in mensages" 
-            :key="mensajes.id"
-            :writtenfromme="mensajes.written_by_me"
-            >
-                {{mensajes.content}}
-            </mensaje-conversation-component>  
+            <b-card-body   class="header">
+                <mensaje-conversation-component v-for="mensajes in menssage" 
+                    :key="mensajes.id"
+                    :writtenfromme="mensajes.written_by_me"
+                    >
+                    {{mensajes.content}}
+                </mensaje-conversation-component> 
+            </b-card-body>
 
-           
             <div slot="footer">
                 <b-form @submit.prevent="postMenssages" class="mb-0" autocomplete="off">
                     <b-input-group>
@@ -48,25 +49,19 @@
 export default {
     props:{
         contactId:Number,
-        name: String
+        name: String,
+        menssage: Array
     },
     mounted(){
-        this.getMenssages();
+      
     },
     data(){
         return {
-            mensages:[],
-            newMensaje:"",
-            
+          
+            newMensaje:"",            
         }
     },
     methods:{
-        getMenssages(){
-            axios.get(`/api/messages?contact_id=${this.contactId}`).then((response) =>{
-            console.log(response.data);
-            this.mensages = response.data;
-        });
-        },
         postMenssages(){
             const params ={
                 to_id:this.contactId,
@@ -74,8 +69,7 @@ export default {
             };
             axios.post('/api/messages', params).then((response)=>{
                 if(response.data.success){
-                    this.newMensaje="",
-                    this.getMenssages();
+                    this.newMensaje="";
                 }else {
 
                 }
@@ -83,12 +77,13 @@ export default {
             })
         }
     },
-    watch:{
-        contactId(value){
-            console.log(`contactId => ${this.contactId}`);
-            this.getMenssages();
-        }
-    }
+  
 
 }
 </script>
+<style>
+    .header{
+        max-height: calc( 100vh - 201px);
+        overflow-y:auto  ;
+    }
+</style>
