@@ -75,8 +75,16 @@ export default {
                 }
             
             })
+        },
+        scrollToBottom(){
+            const el = document.querySelector('.header');
+            el.scrollTop = el.scrollHeight;
         }
     },
+    updated(){
+        this.scrollToBottom();
+        console.log('mensaje ha cambiado')
+    }
   
 
 }
