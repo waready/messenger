@@ -70,6 +70,9 @@ export default {
             axios.post('/api/messages', params).then((response)=>{
                 if(response.data.success){
                     this.newMensaje="";
+                    const message = response.data.message;
+                    message.written_by_me = true;
+                    this.$emit('messageCreated', response.data.message);
                 }else {
 
                 }

@@ -37,6 +37,7 @@ class MessagesController extends Controller
 
         $data = [];
         $data['success'] = $saved;
-        return $data;
+        $data['message'] = $message;
+         return $data;
     }
 }

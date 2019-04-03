@@ -73286,6 +73286,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -73301,11 +73303,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        Echo.channel('example').listen('Messagesent', function (data) {
+        console.log('tag', this.userId);
+        Echo.private('users.' + this.userId).listen('Messagesent', function (data) {
+            console.log('dadsad', data);
             var mensas = data.message;
-            mensas.written_by_me = _this.userId == mensas.from_id;
+            mensas.written_by_me = false;
             console.log(mensas);
-            _this.menssages.push(mensas);
+            //this.menssages.push(mensas);
+            _this.addMessage(mensas);
         });
     },
 
@@ -73313,16 +73318,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         mostardatos: function mostardatos(datos) {
 
             this.selectConversation = datos;
-            console.log(this.selectConversation);
+            //console.log(this.selectConversation);
             this.getMenssages();
         },
         getMenssages: function getMenssages() {
             var _this2 = this;
 
             axios.get('/api/messages?contact_id=' + this.selectConversation.contact_id).then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
                 _this2.menssages = response.data;
             });
+        },
+        addMessage: function addMessage(menssage) {
+            console.error(menssage);
+            if (this.selectConversation.contact_id == menssage.to_id) {
+
+                console.log("funciona", this.selectConversation.contact_id, menssage);
+                this.menssages.push(menssage);
+                //menssage.written_by_me = (this.userId == menssage.from_id);
+                // console.log(" writen by me", menssage)
+                //this.menssages.push(menssage);
+            } else {
+                console.log('este no es el user', this.selectConversation.contact_id);
+            }
         }
     }
 
@@ -73369,6 +73387,11 @@ var render = function() {
                       contactId: _vm.selectConversation.contact_id,
                       name: _vm.selectConversation.contact_name,
                       menssage: _vm.menssages
+                    },
+                    on: {
+                      messageCreated: function($event) {
+                        _vm.addMessage($event)
+                      }
                     }
                   })
                 : _vm._e()
@@ -73973,6 +73996,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/messages', params).then(function (response) {
                 if (response.data.success) {
                     _this.newMensaje = "";
+                    var message = response.data.message;
+                    message.written_by_me = true;
+                    _this.$emit('messageCreated', response.data.message);
                 } else {}
             });
         },
