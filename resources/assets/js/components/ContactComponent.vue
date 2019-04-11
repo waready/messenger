@@ -2,14 +2,21 @@
     <b-list-group-item :variant="variant" >
         <b-row class="p-2" align-h="center">
             <b-col cols="12" md="3" class="text-center">
-                <b-img rounded="circle" blank width= '60' height= '60' class= 'm1' blank-color="#777" alt="Center image" />
+                <b-img rounded="circle" blank width= '60' height= '60' class= 'mb-1' blank-color="#777" alt="Center image" />
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
-                <p class="mb-1">{{conversation.contact_name}}</p>
+                
+                <p class="mb-1">
+                    <status-component :online="conversation.online"></status-component>
+                    {{conversation.contact_name}}
+                </p>
                 <p class="text-muted small mb-1">{{conversation.last_message}}</p>
             </b-col>
             <b-col cols="3" class="d-none d-md-block">
-                <p class="text-muted small">{{conversation.last_time}}</p>
+                <p class="text-muted small">
+                    <!-- {{conversation.last_time}} -->
+                    {{lastTime}}
+                    </p>
             </b-col>
         </b-row>
     </b-list-group-item>
@@ -31,6 +38,11 @@
         },
         mounted() {
            // console.log('Component mounted.')
+        },
+        computed:{
+            lastTime(){
+                return moment(this.conversation.last_time, "YYYY-MM-DD hh:mm:ss").locale('es').fromNow();
+            }
         }
     }
 </script>

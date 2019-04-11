@@ -18,7 +18,8 @@ Vue.use(BootstrapVue);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.component('profile-form-component', require('./components/ProfileFormComponent.vue'));
+Vue.component('status-component', require('./components/StatusComponent.vue'));
 Vue.component('contact-component', require('./components/ContactComponent.vue'));
 Vue.component('messenger-component', require('./components/MessengerComponente.vue'));
 Vue.component('contact-list-component', require('./components/ContactListComponent.vue'));

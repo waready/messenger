@@ -1,8 +1,16 @@
 <template>
     <b-container fluid style="height: calc(100vh - 56px )">
         <b-row no-gutters>
-            <b-col cols="4">            
-                <contact-list-component v-on:conversacionSelect="mostardatos($event)">
+            <b-col cols="4">
+                <b-form class="my-3 px-2">
+                    <b-form-input  class="text-center" type="text" 
+                    v-model="search"
+                    placeholder="Buscar contacto....">
+                    </b-form-input>
+                </b-form>            
+                <contact-list-component 
+                v-on:conversacionSelect="mostardatos($event)"
+                :conversations="conversationFilter">
                 </contact-list-component>        
             </b-col>
             <b-col cols="8">            
@@ -28,20 +36,32 @@ export default {
     data(){
         return {
             selectConversation:null,
-            menssages:[]
+            menssages:[],
+            conversaciones:[],
+            search:''
         }
     },
     mounted(){
-        
-        console.log('tag', this.userId)
+        this.getConversation();
+    
         Echo.private(`users.${this.userId}`).
         listen('Messagesent',(data) => {
-            console.log('dadsad', data)
             const mensas = data.message;
             mensas.written_by_me = false;
-            console.log(mensas)
             //this.menssages.push(mensas);
             this.addMessage(mensas);
+        })
+        Echo.join('messenger')
+        .here((users)=>{
+            users.forEach ( (user) => {
+                this.changeStatus(user,true);
+            });
+        })
+        .joining((user)=> {
+            this.changeStatus(user,true);
+        })
+        .leaving((user)=>{
+            this.changeStatus(user,false);              
         })
     },
     methods:{
@@ -58,19 +78,43 @@ export default {
             });
         },
         addMessage(menssage){
-            console.error(menssage)
-            if(this.selectConversation.contact_id == menssage.to_id){
+            console.log('este no es el user');
+           const conver = this.conversaciones.find((conversation) => {
+                return conversation.contact_id == menssage.from_id || conversation.contact_id == menssage.to_id;
+            });
+            const autor = this.userId === menssage.from_id ? "Tu" : conver.contact_name;
+            conver.last_message = `${autor}: ${menssage.content}`;
+            conver.last_time = menssage.created_at;
+
+            if(this.selectConversation.contact_id == menssage.from_id ||  this.selectConversation.contact_id == menssage.to_id){
                 
                 console.log("funciona", this.selectConversation.contact_id, menssage);
                 this.menssages.push(menssage);
-                //menssage.written_by_me = (this.userId == menssage.from_id);
-                // console.log(" writen by me", menssage)
-                //this.menssages.push(menssage);
+                
             }
             else {
                 console.log('este no es el user', this.selectConversation.contact_id)
             }
             
+        },
+        getConversation(){
+            axios.get('api/conversations').then((response)=>{
+                console.log( "conversasafshaj",response.data)
+                this.conversaciones = response.data;
+            })
+        },
+        changeStatus( user , status){
+            const index = this.conversaciones.findIndex((conversation) => {
+                return conversation.contact_id == user.id
+            })
+            if(index >= 0)
+                this.$set(this.conversaciones[index], "online", status )
+        }
+    },
+    computed:{
+        conversationFilter(){
+           return this.conversaciones.filter((conver) => conver.contact_name.toLowerCase().includes(this.search.toLowerCase()) )
+           //return this.juegos.filter((items)=> items.titulo.includes(this.mensaje));
         }
     }
     

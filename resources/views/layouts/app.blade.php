@@ -48,6 +48,9 @@
                         </b-nav-item>
                     @else
                         <b-nav-item-dropdown text=" {{ Auth::user()->name }}" right>
+                            <b-dropdown-item href="{{ url('/profile')}}">
+                                Modificar Perfil
+                            </b-dropdown-item>
                             <b-dropdown-item @click="logout()">
                                 Cerrar Sesion
                             </b-dropdown-item>
