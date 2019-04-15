@@ -1,6 +1,6 @@
 <template>
     <b-media :right-align="writtenfromme" vertical-align="center" class="mb-2">
-        <b-img rounded="circle" slot="aside" blank blank-color="#ccc" width="48" alt="placeholder" />
+        <b-img  :src="image" rounded="circle" slot="aside" width="48" height="48" alt="placeholder" />
         
         <b-card>
             <slot>
@@ -14,6 +14,7 @@
 <script>
 export default {
     props:{
+        image:String,
         writtenfromme:Boolean,
     },
 

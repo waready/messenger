@@ -13,15 +13,20 @@ class ProfileController extends Controller
         //dd($request->all());
          $user = auth()->user();
          $user -> name = $request->name;
-         if ($request->passwaord)
+         if ($request->password) {
             $user -> password = bcrypt($request->password);
-
+         }
         $file = $request->image;
-         if ($file){
 
+         if ($file){
+            $path = public_path('/users');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $moved = $file -> move($path, $fileName);
+            $user->image = $fileName;
          }  
-         $user->image = $fileName;
-         $user->save(); 
+         
+         $user->save();
+         return back(); 
 
         // return 'peticion post';
     }

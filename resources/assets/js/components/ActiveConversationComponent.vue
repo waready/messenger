@@ -11,6 +11,7 @@
                 <mensaje-conversation-component v-for="mensajes in menssage" 
                     :key="mensajes.id"
                     :writtenfromme="mensajes.written_by_me"
+                    :image ="mensajes.written_by_me ? myImagen: imagen"
                     >
                     {{mensajes.content}}
                 </mensaje-conversation-component> 
@@ -35,7 +36,7 @@
             </b-card>
         </b-col>
         <b-col cols="4" class ='my-2'>
-            <b-img rounded="circle" blank width= '60' height= '60' class= 'm1' blank-color="#777" alt="Center image" />
+            <b-img :src="imagen" rounded="circle"  width= '60' height= '60' class= 'm1'  />
 
             <p>{{name}}</p>
             <hr>
@@ -50,7 +51,9 @@ export default {
     props:{
         contactId:Number,
         name: String,
-        menssage: Array
+        imagen: String,
+        menssage: Array,
+        myImagen: String
     },
     mounted(){
       

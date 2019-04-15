@@ -4,6 +4,7 @@
         <contact-component  
         :conversation="item" 
         v-for="item in conversations" :key="item.id"
+        :selected ="selectedConversationId === item.id"
         @click.native="selecConversation(item)"
         >
 
@@ -19,7 +20,7 @@ export default {
     },
     data(){
         return{
-           
+           selectedConversationId: null
         }
     },
     mounted(){
@@ -29,6 +30,7 @@ export default {
     },
     methods:{
         selecConversation(conver){
+            this.selectedConversationId = conver.id;
             this.$emit('conversacionSelect',conver);
         }
     }

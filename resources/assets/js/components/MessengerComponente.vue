@@ -19,6 +19,8 @@
                 :contactId="selectConversation.contact_id"
                 :name="selectConversation.contact_name"
                 :menssage="menssages"
+                :imagen="selectConversation.contact_image"
+                :myImagen="myImagenUrl"
                 @messageCreated="addMessage($event)">
 
                 </active-conversation-component>                    
@@ -30,7 +32,7 @@
 <script>
 export default {
     props:{
-        userId: Number
+        user: Object
     },
 
     data(){
@@ -44,7 +46,7 @@ export default {
     mounted(){
         this.getConversation();
     
-        Echo.private(`users.${this.userId}`).
+        Echo.private(`users.${this.user.id}`).
         listen('Messagesent',(data) => {
             const mensas = data.message;
             mensas.written_by_me = false;
@@ -82,7 +84,7 @@ export default {
            const conver = this.conversaciones.find((conversation) => {
                 return conversation.contact_id == menssage.from_id || conversation.contact_id == menssage.to_id;
             });
-            const autor = this.userId === menssage.from_id ? "Tu" : conver.contact_name;
+            const autor = this.user.id === menssage.from_id ? "Tu" : conver.contact_name;
             conver.last_message = `${autor}: ${menssage.content}`;
             conver.last_time = menssage.created_at;
 
@@ -115,6 +117,9 @@ export default {
         conversationFilter(){
            return this.conversaciones.filter((conver) => conver.contact_name.toLowerCase().includes(this.search.toLowerCase()) )
            //return this.juegos.filter((items)=> items.titulo.includes(this.mensaje));
+        },
+        myImagenUrl(){
+            return `/users/${this.user.image}`
         }
     }
     

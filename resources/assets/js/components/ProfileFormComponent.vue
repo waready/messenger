@@ -31,11 +31,16 @@
         ></b-form-input>
       </b-form-group>   
       <b-form-group  label="Imagen de perfil (solo si decea modificar):">
+        <b-img :src="imagen" rounded="circle" width= '60' height= '60' class= 'mb-1'  alt="Imagen Actual" title="Imagen de perfil" />
         <b-form-file
             name="image"
           placeholder="sube una imagen"
         ></b-form-file>
       </b-form-group>
+      
+          
+      
+
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
@@ -58,6 +63,11 @@
     methods: {
    
      
+    },
+    computed: {
+      imagen(){
+        return `/users/${this.user.image}`;
+      }
     }
   }
 </script>

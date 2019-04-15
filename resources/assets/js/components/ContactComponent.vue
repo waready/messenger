@@ -2,7 +2,7 @@
     <b-list-group-item :variant="variant" >
         <b-row class="p-2" align-h="center">
             <b-col cols="12" md="3" class="text-center">
-                <b-img rounded="circle" blank width= '60' height= '60' class= 'mb-1' blank-color="#777" alt="Center image" />
+                <b-img :src="conversation.contact_image" rounded="circle"  width= '60' height= '60' class= 'mb-1'  alt="Center image" />
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
                 
@@ -25,7 +25,7 @@
 <script>
     export default {
         props:{ 
-            variant:String,
+            selected :Boolean,
             conversation:Object,
         },
         data(){
@@ -42,6 +42,9 @@
         computed:{
             lastTime(){
                 return moment(this.conversation.last_time, "YYYY-MM-DD hh:mm:ss").locale('es').fromNow();
+            },
+            variant(){
+                return this.selected ? 'info' : '';
             }
         }
     }

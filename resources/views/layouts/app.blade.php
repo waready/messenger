@@ -18,11 +18,11 @@
         {{ csrf_field() }}
     </form>
     <div id="app" class="h-100">
-      <b-navbar toggleable="md" type="dark" variant="primary">
+      <b-navbar toggleable="md" type="dark" variant="danger">
         <b-navbar-toggle target="nav_collapse">
             MENU
         </b-navbar-toggle>
-            <b-navbar-brand href="{{ url('/') }}">
+            <b-navbar-brand href="{{ url('/home') }}">
               {{ config('app.name', 'Laravel') }}
             </b-navbar-brand>
 
@@ -64,6 +64,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
